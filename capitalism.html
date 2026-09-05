@@ -1,0 +1,1319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CAPITALISM</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #faf7f2;
+      --card-bg: rgba(255, 255, 255, 0.65);
+      --ink: #1f1c1a;
+      --ink-soft: #4a443e;
+      --ink-muted: #8c8275;
+      --accent: #b3532e;
+      --line: #e6dfd3;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      line-height: 1.85;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+      padding: 0 1.5rem;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding-top: 5rem;
+    }
+
+    /* Stylised Heading */
+    .title-capitalism {
+      font-family: var(--font-serif);
+      font-size: clamp(3.2rem, 7.5vw, 5.2rem);
+      font-weight: 300;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 2.5rem;
+      display: inline-block;
+      position: relative;
+    }
+
+    .title-capitalism::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 2px;
+      width: 32px;
+      height: 2px;
+      background: var(--accent);
+      opacity: 0.8;
+    }
+
+    /* Prerequisite Box */
+    .prereq-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: none;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.35rem 0.9rem;
+      margin: 0.5rem 0 2rem;
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+    }
+
+    .prereq-badge a {
+      color: var(--ink-soft);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .prereq-badge a:hover {
+      color: var(--accent);
+    }
+
+    /* Text & Quotes */
+    p {
+      color: var(--ink-soft);
+      margin-bottom: 1.6rem;
+      font-weight: 300;
+    }
+
+    p strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    blockquote {
+      font-family: var(--font-serif);
+      font-size: 1.45rem;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--ink);
+      border-left: 2px solid var(--accent);
+      padding-left: 1.25rem;
+      margin: 2.2rem 0;
+    }
+
+    /* Shadow Cards */
+    .shadow-card {
+      background: var(--card-bg);
+      border: none;
+      box-shadow: 0 18px 45px rgba(35, 25, 15, 0.055);
+      border-radius: 20px;
+      padding: 2.2rem 2.2rem;
+      position: relative;
+      margin-bottom: 1.6rem;
+    }
+
+    .card-top-num {
+      position: absolute;
+      top: 1.3rem;
+      right: 1.6rem;
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      color: var(--accent);
+      line-height: 1;
+      font-weight: 400;
+    }
+
+    .card-para {
+      text-align: justify;
+      text-indent: 2.2rem;
+      color: var(--ink-soft);
+      line-height: 1.85;
+      margin-bottom: 0;
+      font-size: 1.02rem;
+    }
+
+    .card-para strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* Visualizer Arena 1 */
+    .arena-wrap {
+      margin: 0.6rem 0 2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.5rem 1.25rem 1.2rem;
+    }
+
+    .arena-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .arena-tab {
+      background: none;
+      border: 1px solid var(--line);
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-sans);
+    }
+
+    .arena-tab:hover, .arena-tab.active {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+    }
+
+    svg.arena-svg {
+      width: 100%;
+      height: 290px;
+      display: block;
+      overflow: visible;
+    }
+
+    .axis-line {
+      stroke: var(--ink-muted);
+      stroke-width: 1.2;
+      stroke-opacity: 0.6;
+    }
+
+    .axis-label {
+      font-size: 11px;
+      fill: var(--ink-muted);
+      letter-spacing: 0.05em;
+    }
+
+    .grid-line {
+      stroke: var(--line);
+      stroke-width: 1;
+      stroke-dasharray: 4 4;
+    }
+
+    /* Visualizer Arena 2: 3D to 1D Transformation */
+    .transform-wrap {
+      margin: 0.6rem 0 2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.5rem 1.25rem 1.2rem;
+    }
+
+    .transform-title {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+
+    svg.transform-svg {
+      width: 100%;
+      height: 340px;
+      display: block;
+      overflow: visible;
+      cursor: grab;
+      user-select: none;
+    }
+
+    svg.transform-svg:active {
+      cursor: grabbing;
+    }
+
+    .person-point {
+      cursor: pointer;
+      transition: transform 0.15s ease;
+    }
+
+    .person-badge {
+      font-family: var(--font-sans);
+      font-size: 10px;
+      font-weight: 600;
+      pointer-events: none;
+    }
+
+    /* Epoch Matrix (from CAPITALISM2.jpg) */
+    .epoch-matrix {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem;
+      margin: 2rem 0 1.25rem;
+      border-top: 1px solid var(--line);
+      padding-top: 1.6rem;
+    }
+
+    @media (max-width: 680px) {
+      .epoch-matrix {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+    }
+
+    .epoch-col {
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1.2rem 1rem 1.3rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.03);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      min-height: 210px;
+    }
+
+    .epoch-col:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .epoch-col.epoch-highlight {
+      background: #faf5ee;
+      border-color: rgba(179, 83, 46, 0.35);
+      box-shadow: 0 4px 16px rgba(179, 83, 46, 0.08);
+    }
+
+    .epoch-header {
+      margin-bottom: 1rem;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 0.75rem;
+      min-height: 50px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .epoch-title-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .epoch-icon-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 7px;
+      background: rgba(0, 0, 0, 0.04);
+      color: var(--ink);
+      flex-shrink: 0;
+    }
+
+    .epoch-col.epoch-highlight .epoch-icon-wrap {
+      background: rgba(179, 83, 46, 0.12);
+      color: var(--accent);
+    }
+
+    .epoch-title {
+      display: block;
+      font-family: var(--font-serif);
+      font-size: 1.08rem;
+      font-weight: 600;
+      color: var(--ink);
+      line-height: 1.25;
+    }
+
+    .epoch-sub {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      margin-top: 0.25rem;
+      padding-left: 32px;
+    }
+
+    .epoch-requirements {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      color: var(--ink-light);
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      flex-grow: 1;
+      justify-content: center;
+    }
+
+    .epoch-requirements li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+      line-height: 1.4;
+    }
+
+    .roman-num {
+      font-family: var(--font-serif);
+      font-weight: 600;
+      color: var(--ink-muted);
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      min-width: 1.25rem;
+    }
+
+    .epoch-req-text {
+      flex: 1;
+    }
+
+    .epoch-mystery {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1;
+    }
+
+    .epoch-footer-note {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-style: italic;
+      color: var(--ink);
+      text-align: right;
+      margin-top: 1.2rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    /* Prominent Quote */
+    .prominent-quote {
+      font-family: var(--font-serif);
+      font-size: clamp(1.45rem, 3.5vw, 1.95rem);
+      font-weight: 500;
+      font-style: italic;
+      color: var(--ink);
+      text-align: center;
+      line-height: 1.45;
+      margin: 3.5rem auto 1.5rem;
+      max-width: 620px;
+      border: none;
+      padding: 0;
+    }
+
+    /* Source Photo / Notebook Scans */
+    .source-wrap {
+      margin: 2.5rem 0 1rem;
+      text-align: center;
+    }
+
+    .source-scans-row {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .source-img {
+      width: 72px;
+      max-width: 72px;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      display: block;
+      opacity: 0.8;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      cursor: pointer;
+    }
+
+    .source-img:hover {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 14, 12, 0.88);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .lightbox-caption {
+      color: #ede7dc;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      font-family: var(--font-sans);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -2.5rem;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.8rem;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+
+    /* Minimal Colophon */
+    footer {
+      padding: 1.5rem 0 4rem;
+      text-align: center;
+    }
+
+    /* Floating Next Essay Button */
+    .floating-next-btn {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 1000;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(250, 247, 242, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--ink-soft);
+      border: 1px solid var(--line);
+      padding: 0.4rem 0.8rem;
+      border-radius: 9999px;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .floating-next-btn:hover {
+      background: #ffffff;
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(179, 83, 46, 0.15);
+    }
+    .floating-next-btn svg {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transition: transform 0.2s ease;
+    }
+    .floating-next-btn:hover svg {
+      transform: translateX(2px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <main>
+      <section>
+        <h1 class="title-capitalism">CAPITALISM</h1>
+
+        <p style="font-size: 1.25rem; font-family: var(--font-serif); color: var(--ink); line-height: 1.6; margin-bottom: 1.2rem;">
+          Instead of reading Adam Smith's “Wealth of Nations”, why should you read me? Give it a drive, You will know the answer.
+        </p>
+
+        <div class="prereq-badge">
+          <span>Pre-requisite:</span>
+          <a href="ego.html">‘Ego’</a> & <a href="status.html">‘Status’</a> article.
+        </div>
+      </section>
+
+      <!-- Section: Paragraph 1 -->
+      <section style="margin: 2rem 0 1.2rem;">
+        <div class="shadow-card">
+          <span class="card-top-num">1</span>
+          <p class="card-para">
+            In the article status, I mentioned how the status game of society is hyper dimensional, or in easier terms, Life's game is having more than one competition. You lost 1, win 3 today and you may win 4 tomorrow with 9 loss.
+          </p>
+          <p class="card-para" style="margin-top: 1rem;">
+            This creates an healthy individual with contained ego and a society with egalitarian ethos.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section: Paragraph 2 -->
+      <section style="margin: 2rem 0 1.2rem;">
+        <div class="shadow-card">
+          <span class="card-top-num">2</span>
+          <p class="card-para">
+            But this is not what is going on today in most of the city & urban spheres. The central status becoming money day by day. The game is becoming unidimensional.
+          </p>
+        </div>
+      </section>
+
+      <!-- Visualizer 2: 3D to 1D Dimensionality Transformation -->
+      <section style="margin: 1.2rem 0 2rem;">
+        <div class="transform-wrap">
+          <div class="transform-title">From Hyperdimensional Space to a Single Line</div>
+
+          <svg class="transform-svg" id="transformSvg" viewBox="0 0 720 340" role="img" aria-label="Interactive 3D to 1D Transformation Graph">
+            <defs>
+              <marker id="arrowHead" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 1 L 10 5 L 0 9 z" fill="var(--accent)" />
+              </marker>
+            </defs>
+            <g id="transformScene"></g>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Section: Paragraph 3 -->
+      <section style="margin: 2rem 0 1.2rem;">
+        <div class="shadow-card">
+          <span class="card-top-num">3</span>
+          <p class="card-para">
+            Look, what is the downside of this way of status game on life-style / culture in society.
+          </p>
+          <p class="card-para" style="margin-top: 1rem;">
+            First of all morality as a status dimension have collapsed. If no one check how your income gets generated, just from money and wealth you generated, your status gets decided. This is a societal suicide.
+          </p>
+          <p class="card-para" style="margin-top: 1rem;">
+            Above that, what is the repercussion on the loser, because in a single competition more than winner, more people will be get themselves on the loser side. This is also one of the greatest contributor to the “Meaning” crisis the world is facing now a days.
+          </p>
+          <p class="card-para" style="margin-top: 1rem;">
+            Like, lack of biodiversity can make an ecosystem collapse, if we are unable to conserve the multi dimensional games in the rural world too, but my word, We are heading for total societal collapse.
+          </p>
+        </div>
+      </section>
+
+      <!-- Visualizer 1: Compression of Status -->
+      <section style="margin: 1.2rem 0 2rem;">
+        <div class="arena-wrap">
+          <div class="arena-tabs">
+            <button class="arena-tab active" onclick="setCompression(0, this)">Pre-industrialisation</button>
+            <button class="arena-tab" onclick="setCompression(1, this)">Industrial Society</button>
+          </div>
+
+          <svg class="arena-svg" id="compressionSvg" viewBox="0 0 680 270" role="img" aria-label="Status Dimension Compression Graph">
+            <g class="grid-lines" stroke="rgba(230, 223, 211, 0.7)" stroke-width="1" stroke-dasharray="4 4">
+              <line x1="70" y1="50" x2="620" y2="50" />
+              <line x1="70" y1="100" x2="620" y2="100" />
+              <line x1="70" y1="150" x2="620" y2="150" />
+              <line x1="70" y1="200" x2="620" y2="200" />
+            </g>
+            <line x1="70" y1="220" x2="620" y2="220" class="axis-line" />
+            <line x1="70" y1="220" x2="70" y2="30" class="axis-line" />
+            <text x="620" y="240" class="axis-label" text-anchor="end">Dimensions →</text>
+            <text x="60" y="26" class="axis-label" text-anchor="start">Status ↑</text>
+            <path id="statusCurve" fill="none" stroke="#b3532e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.85" />
+            <g id="dimensionNodes"></g>
+          </svg>
+        </div>
+      </section>
+
+      <!-- Section: Paragraph 4 -->
+      <section style="margin: 2rem 0 1.2rem;">
+        <div class="shadow-card">
+          <span class="card-top-num">4</span>
+          <p class="card-para">
+            But I am hopeful, individuals are learning, they are seeking path. Think! What would two billionaire / ordinary friend talk about in their free time. It must be something other than money or how to get more money. They must talk about amazing places they travel, number of jet, dishes they tasted during culinary adventures.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section: Paragraph 5 (from CAPITALISM2.jpg) -->
+      <section style="margin: 2rem 0 1.2rem;">
+        <div class="shadow-card">
+          <span class="card-top-num">5</span>
+          <p class="card-para">
+            What actually technology do is that it change the game in society. Only constant in the games is seeking status if you survive, and more fundamentally survival of the fittest.
+          </p>
+          <p class="card-para" style="margin-top: 1rem;">
+            It is the technology that determines the requirement in an individual to win in that game. And these requirement determines rule of the game. And these rules we called culture, laws, customs, religions, ideology.
+          </p>
+          <p class="card-para" style="margin-top: 1rem;">
+            So directly or indirectly technology determines society, how it will run. Yes, new system inherit many traits.
+          </p>
+
+          <!-- Epoch Matrix / Comparison Table from Manuscript -->
+          <div class="epoch-matrix">
+            <!-- 1. Agriculture -->
+            <div class="epoch-col">
+              <div class="epoch-header">
+                <div class="epoch-title-row">
+                  <span class="epoch-icon-wrap">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>
+                  </span>
+                  <span class="epoch-title">Agriculture</span>
+                </div>
+              </div>
+              <ul class="epoch-requirements">
+                <li>
+                  <span class="roman-num">(i)</span>
+                  <span class="epoch-req-text">I need to be strong</span>
+                </li>
+                <li>
+                  <span class="roman-num">(ii)</span>
+                  <span class="epoch-req-text">I need to hold a lot of Land</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- 2. Industry -->
+            <div class="epoch-col">
+              <div class="epoch-header">
+                <div class="epoch-title-row">
+                  <span class="epoch-icon-wrap">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                  </span>
+                  <span class="epoch-title">Industry</span>
+                </div>
+              </div>
+              <ul class="epoch-requirements">
+                <li>
+                  <span class="roman-num">(i)</span>
+                  <span class="epoch-req-text">I need to be educated</span>
+                </li>
+                <li>
+                  <span class="roman-num">(ii)</span>
+                  <span class="epoch-req-text">I need to hold a lot of Capital</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- 3. Artificial General Intelligence -->
+            <div class="epoch-col epoch-highlight">
+              <div class="epoch-header">
+                <div class="epoch-title-row">
+                  <span class="epoch-icon-wrap">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/></svg>
+                  </span>
+                  <span class="epoch-title">Artificial General Intelligence</span>
+                </div>
+              </div>
+              <ul class="epoch-requirements">
+                <li>
+                  <span class="roman-num">(i)</span>
+                  <span class="epoch-req-text epoch-mystery">?</span>
+                </li>
+                <li>
+                  <span class="roman-num">(ii)</span>
+                  <span class="epoch-req-text epoch-mystery">?</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="epoch-footer-note">
+            AI is coming ...
+          </div>
+        </div>
+      </section>
+
+      <!-- Prominent Quote -->
+      <blockquote class="prominent-quote">
+        “If no one check how your income gets generated, just from money your status gets decided, this is a societal suicide.”
+      </blockquote>
+
+      <!-- Source Notebook Scans -->
+      <section class="source-wrap">
+        <div class="source-scans-row">
+          <img src="CAPITALISM.jpg" alt="Original notebook manuscript page 1" class="source-img" onclick="openLightbox('CAPITALISM.jpg', 'Notebook Page 1')" loading="lazy">
+          <img src="CAPITALISM2.jpg" alt="Original notebook manuscript page 2" class="source-img" onclick="openLightbox('CAPITALISM2.jpg', 'Notebook Page 2')" loading="lazy">
+        </div>
+      </section>
+    </main>
+
+    <footer></footer>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox(event)">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+      <img id="lightboxImg" src="" alt="Notebook Manuscript Full View" class="lightbox-img">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // 1. COMPRESSION GRAPH
+    // ==========================================
+    const dimensions = [
+      { name: "Morality", baseX: 110, baseY: 75, flatY: 210 },
+      { name: "Helping",  baseX: 200, baseY: 95, flatY: 210 },
+      { name: "Skill",    baseX: 290, baseY: 65, flatY: 210 },
+      { name: "Wisdom",   baseX: 380, baseY: 85, flatY: 210 },
+      { name: "Strength", baseX: 470, baseY: 115, flatY: 210 },
+      { name: "Money",    baseX: 560, baseY: 125, flatY: 65 }
+    ];
+
+    function drawCompressionGraph(v = 0) {
+      const g = document.getElementById("dimensionNodes");
+      if (!g) return;
+      g.innerHTML = "";
+      const points = [];
+
+      dimensions.forEach(d => {
+        const y = d.name === "Money" ? d.baseY * (1 - v) + d.flatY * v : d.baseY * (1 - v) + d.flatY * v;
+        points.push(`${d.baseX},${y}`);
+
+        const node = document.createElementNS("http://www.w3.org/2000/svg", "g");
+
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", d.baseX); line.setAttribute("y1", y);
+        line.setAttribute("x2", d.baseX); line.setAttribute("y2", 220);
+        line.setAttribute("stroke", "var(--line)");
+        line.setAttribute("stroke-dasharray", "3 3");
+        node.appendChild(line);
+
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", d.baseX); circle.setAttribute("cy", y);
+        circle.setAttribute("r", "5.5");
+        circle.setAttribute("fill", "var(--bg)");
+        circle.setAttribute("stroke", "var(--accent)");
+        circle.setAttribute("stroke-width", "2");
+        node.appendChild(circle);
+
+        const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        txt.setAttribute("x", d.baseX);
+        txt.setAttribute("y", y < 90 ? y + 20 : y - 12);
+        txt.setAttribute("font-size", "11");
+        txt.setAttribute("font-weight", "600");
+        txt.setAttribute("fill", "var(--ink)");
+        txt.setAttribute("text-anchor", "middle");
+        txt.textContent = d.name;
+        node.appendChild(txt);
+
+        g.appendChild(node);
+      });
+
+      const curve = document.getElementById("statusCurve");
+      if (curve) curve.setAttribute("d", "M " + points.join(" L "));
+    }
+
+    function setCompression(v, btn) {
+      document.querySelectorAll(".arena-tab").forEach(b => b.classList.remove("active"));
+      if (btn) btn.classList.add("active");
+      drawCompressionGraph(v);
+    }
+
+    // ==========================================
+    // 2. 3D TO 1D TRANSFORMATION GRAPH
+    // ==========================================
+    const AXIS_LENGTH = 150;
+    const personas = [
+      { id: 0, code: "A", name: "Musician",  instruments: 6, helped: 6, money: 15, color: "#b3532e" },
+      { id: 1, code: "B", name: "Healer",    instruments: 1, helped: 7, money: 20, color: "#487346" },
+      { id: 2, code: "C", name: "Polymath",  instruments: 4, helped: 4, money: 45, color: "#b68b40" },
+      { id: 3, code: "D", name: "Financier", instruments: 0, helped: 0, money: 90, color: "#1f1c1a" }
+    ];
+
+    let selectedPersonaIndex = 0;
+    let isSideBySideFinal = false;
+    let animProgress = 0;
+    let animId = null;
+
+    const DEFAULT_YAW = -0.55;
+    const DEFAULT_PITCH = 0.35;
+    let yaw = DEFAULT_YAW;
+    let pitch = DEFAULT_PITCH;
+    let isDragging3D = false;
+    let isUserDragging = false;
+    let prevMouseX = 0, prevMouseY = 0;
+    let dragStartX = 0, dragStartY = 0;
+
+    function project3D(x, y, z, cx, cy, customYaw = yaw, customPitch = pitch, zoom = 1.0) {
+      const cosY = Math.cos(customYaw), sinY = Math.sin(customYaw);
+      const x1 = x * cosY + z * sinY;
+      const z1 = -x * sinY + z * cosY;
+      const y1 = y;
+
+      const cosP = Math.cos(customPitch), sinP = Math.sin(customPitch);
+      const y2 = y1 * cosP - z1 * sinP;
+      const z2 = y1 * sinP + z1 * cosP;
+      const x2 = x1;
+
+      const cameraDist = 520;
+      const scale = (cameraDist / (cameraDist + z2 * 0.75)) * zoom;
+
+      return {
+        px: cx + x2 * scale,
+        py: cy - y2 * scale,
+        depth: z2,
+        scale: scale
+      };
+    }
+
+    function renderParallelAxisLabel(svg, p1, p2, textString, color, offsetDist = -12, opacity = 1) {
+      const dx = p2.px - p1.px;
+      const dy = p2.py - p1.py;
+      const len = Math.sqrt(dx * dx + dy * dy);
+      if (len < 12) return;
+
+      let angle = Math.atan2(dy, dx) * 180 / Math.PI;
+      const midX = (p1.px + p2.px) / 2;
+      const midY = (p1.py + p2.py) / 2;
+
+      const nx = -dy / len;
+      const ny = dx / len;
+
+      let labelX = midX + nx * offsetDist;
+      let labelY = midY + ny * offsetDist;
+
+      let displayText = textString;
+
+      if (angle > 90 || angle < -90) {
+        angle += 180;
+        if (displayText.endsWith("──→")) {
+          displayText = "←── " + displayText.slice(0, -3).trim();
+        } else if (displayText.endsWith("→")) {
+          displayText = "← " + displayText.slice(0, -1).trim();
+        }
+      }
+
+      const txt = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      txt.setAttribute("text-anchor", "middle");
+      txt.setAttribute("dominant-baseline", "central");
+      txt.setAttribute("font-family", "var(--font-serif)");
+      txt.setAttribute("font-size", "11.5");
+      txt.setAttribute("font-style", "italic");
+      txt.setAttribute("font-weight", "600");
+      txt.setAttribute("fill", color);
+      txt.setAttribute("opacity", opacity);
+      txt.setAttribute("transform", `translate(${labelX}, ${labelY}) rotate(${angle})`);
+      txt.textContent = displayText;
+      svg.appendChild(txt);
+    }
+
+    function render3DTo1DTransformation() {
+      const svg = document.getElementById("transformScene");
+      if (!svg) return;
+      svg.innerHTML = "";
+
+      const cx = 175;
+      const cy = 225;
+
+      const pOrigin = project3D(0, 0, 0, cx, cy);
+      const pYTop = project3D(0, AXIS_LENGTH, 0, cx, cy);
+      const pXEnd = project3D(AXIS_LENGTH, 0, 0, cx, cy);
+      const pZEnd = project3D(0, 0, AXIS_LENGTH, cx, cy);
+
+      // --- 1. LEFT SIDE: 3D COORDINATE SYSTEM ---
+      // Y-Axis
+      const yLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      yLine.setAttribute("x1", pOrigin.px); yLine.setAttribute("y1", pOrigin.py);
+      yLine.setAttribute("x2", pYTop.px); yLine.setAttribute("y2", pYTop.py);
+      yLine.setAttribute("stroke", "var(--ink)");
+      yLine.setAttribute("stroke-width", "2");
+      svg.appendChild(yLine);
+
+      for (let i = 1; i <= 7; i++) {
+        const tickPos = project3D(0, (i / 7) * AXIS_LENGTH, 0, cx, cy);
+        const tickOff = project3D(5, (i / 7) * AXIS_LENGTH, 0, cx, cy);
+        const tick = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        tick.setAttribute("x1", tickPos.px); tick.setAttribute("y1", tickPos.py);
+        tick.setAttribute("x2", tickOff.px); tick.setAttribute("y2", tickOff.py);
+        tick.setAttribute("stroke", "var(--ink-muted)");
+        tick.setAttribute("opacity", "0.85");
+        svg.appendChild(tick);
+
+        const tNum = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        const numPos = project3D(13, (i / 7) * AXIS_LENGTH, 0, cx, cy);
+        tNum.setAttribute("x", numPos.px); tNum.setAttribute("y", numPos.py + 3);
+        tNum.setAttribute("font-size", "9.5");
+        tNum.setAttribute("fill", "var(--ink-muted)");
+        tNum.textContent = i;
+        svg.appendChild(tNum);
+      }
+      renderParallelAxisLabel(svg, pOrigin, pYTop, "How many instruments you can play? ──→", "var(--accent)", -17);
+
+      // X-Axis
+      const xLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      xLine.setAttribute("x1", pOrigin.px); xLine.setAttribute("y1", pOrigin.py);
+      xLine.setAttribute("x2", pXEnd.px); xLine.setAttribute("y2", pXEnd.py);
+      xLine.setAttribute("stroke", "var(--ink)");
+      xLine.setAttribute("stroke-width", "2");
+      svg.appendChild(xLine);
+
+      for (let i = 1; i <= 7; i++) {
+        const tickPos = project3D((i / 7) * AXIS_LENGTH, 0, 0, cx, cy);
+        const tickOff = project3D((i / 7) * AXIS_LENGTH, -5, 0, cx, cy);
+        const tick = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        tick.setAttribute("x1", tickPos.px); tick.setAttribute("y1", tickPos.py);
+        tick.setAttribute("x2", tickOff.px); tick.setAttribute("y2", tickOff.py);
+        tick.setAttribute("stroke", "var(--ink-muted)");
+        tick.setAttribute("opacity", "0.85");
+        svg.appendChild(tick);
+
+        const tNum = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        const numPos = project3D((i / 7) * AXIS_LENGTH, -13, 0, cx, cy);
+        tNum.setAttribute("x", numPos.px); tNum.setAttribute("y", numPos.py + 3);
+        tNum.setAttribute("font-size", "9.5");
+        tNum.setAttribute("text-anchor", "middle");
+        tNum.setAttribute("fill", "var(--ink-muted)");
+        tNum.textContent = i;
+        svg.appendChild(tNum);
+      }
+      renderParallelAxisLabel(svg, pOrigin, pXEnd, "How many people you have helped? ──→", "#487346", 20);
+
+      // Z-Axis
+      const zLine = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      zLine.setAttribute("x1", pOrigin.px); zLine.setAttribute("y1", pOrigin.py);
+      zLine.setAttribute("x2", pZEnd.px); zLine.setAttribute("y2", pZEnd.py);
+      zLine.setAttribute("stroke", "var(--ink)");
+      zLine.setAttribute("stroke-width", "2");
+      svg.appendChild(zLine);
+
+      for (let i = 1; i <= 7; i++) {
+        const tickPos = project3D(0, 0, (i / 7) * AXIS_LENGTH, cx, cy);
+        const tickOff = project3D(-5, 0, (i / 7) * AXIS_LENGTH, cx, cy);
+        const tick = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        tick.setAttribute("x1", tickPos.px); tick.setAttribute("y1", tickPos.py);
+        tick.setAttribute("x2", tickOff.px); tick.setAttribute("y2", tickOff.py);
+        tick.setAttribute("stroke", "var(--ink-muted)");
+        tick.setAttribute("opacity", "0.85");
+        svg.appendChild(tick);
+      }
+      renderParallelAxisLabel(svg, pOrigin, pZEnd, "Money ──→", "#6b6155", -14);
+
+      // --- 2. MIDDLE ARROW ---
+      const midArrowX1 = 345, midArrowX2 = 405, midArrowY = 165;
+      const bigArrow = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      bigArrow.setAttribute("x1", midArrowX1); bigArrow.setAttribute("y1", midArrowY);
+      bigArrow.setAttribute("x2", midArrowX2); bigArrow.setAttribute("y2", midArrowY);
+      bigArrow.setAttribute("stroke", "var(--accent)");
+      bigArrow.setAttribute("stroke-width", "3.5");
+      bigArrow.setAttribute("stroke-linecap", "round");
+      bigArrow.setAttribute("marker-end", "url(#arrowHead)");
+      bigArrow.setAttribute("opacity", isSideBySideFinal ? "0.95" : (Math.sin(animProgress * Math.PI) * 0.8 + 0.25));
+      svg.appendChild(bigArrow);
+
+      // --- 3. RIGHT SIDE: 1D LINE ---
+      const line1DStartX = 435, line1DEndX = 690, line1DY = 165;
+      const line1D = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line1D.setAttribute("x1", line1DStartX); line1D.setAttribute("y1", line1DY);
+      line1D.setAttribute("x2", line1DEndX); line1D.setAttribute("y2", line1DY);
+      line1D.setAttribute("stroke", "var(--ink)");
+      line1D.setAttribute("stroke-width", "2.8");
+      line1D.setAttribute("stroke-linecap", "square");
+      svg.appendChild(line1D);
+
+      const cap1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      cap1.setAttribute("x1", line1DStartX); cap1.setAttribute("y1", line1DY - 8);
+      cap1.setAttribute("x2", line1DStartX); cap1.setAttribute("y2", line1DY + 8);
+      cap1.setAttribute("stroke", "var(--ink)"); cap1.setAttribute("stroke-width", "2.8");
+      svg.appendChild(cap1);
+
+      const cap2 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      cap2.setAttribute("x1", line1DEndX); cap2.setAttribute("y1", line1DY - 8);
+      cap2.setAttribute("x2", line1DEndX); cap2.setAttribute("y2", line1DY + 8);
+      cap2.setAttribute("stroke", "var(--ink)"); cap2.setAttribute("stroke-width", "2.8");
+      svg.appendChild(cap2);
+
+      for (let i = 1; i <= 10; i++) {
+        const tx = line1DStartX + (i / 11) * (line1DEndX - line1DStartX);
+        const tick = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        tick.setAttribute("x1", tx); tick.setAttribute("y1", line1DY - 6);
+        tick.setAttribute("x2", tx); tick.setAttribute("y2", line1DY);
+        tick.setAttribute("stroke", "var(--ink-muted)");
+        tick.setAttribute("stroke-width", "1.4");
+        svg.appendChild(tick);
+      }
+
+      const title1D = document.createElementNS("http://www.w3.org/2000/svg", "text");
+      title1D.setAttribute("x", (line1DStartX + line1DEndX) / 2);
+      title1D.setAttribute("y", line1DY + 30);
+      title1D.setAttribute("text-anchor", "middle");
+      title1D.setAttribute("font-family", "var(--font-serif)");
+      title1D.setAttribute("font-size", "17");
+      title1D.setAttribute("font-style", "italic");
+      title1D.setAttribute("font-weight", "600");
+      title1D.setAttribute("fill", "var(--ink)");
+      title1D.textContent = "Money ────────→";
+      svg.appendChild(title1D);
+
+      // --- 4. PERSONA POINTS ---
+      personas.forEach((person, idx) => {
+        const p3DX = (person.helped / 7) * AXIS_LENGTH;
+        const p3DY = (person.instruments / 7) * AXIS_LENGTH;
+        const p3DZ = (person.money / 100) * AXIS_LENGTH;
+
+        const proj3D = project3D(p3DX, p3DY, p3DZ, cx, cy);
+        const floor3D = project3D(p3DX, 0, p3DZ, cx, cy);
+
+        const pos1DX = line1DStartX + (person.money / 100) * (line1DEndX - line1DStartX);
+        const pos1DY = line1DY;
+
+        if (isSideBySideFinal) {
+          // Both graphs final stage
+          const g3D = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          g3D.setAttribute("class", "person-point");
+          if (p3DY > 5) {
+            const drop = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            drop.setAttribute("x1", proj3D.px); drop.setAttribute("y1", proj3D.py);
+            drop.setAttribute("x2", floor3D.px); drop.setAttribute("y2", floor3D.py);
+            drop.setAttribute("stroke", person.color);
+            drop.setAttribute("stroke-width", "1.2");
+            drop.setAttribute("stroke-dasharray", "2 2");
+            drop.setAttribute("opacity", "0.6");
+            g3D.appendChild(drop);
+          }
+          const dot3D = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          dot3D.setAttribute("cx", proj3D.px); dot3D.setAttribute("cy", proj3D.py);
+          dot3D.setAttribute("r", "5.5");
+          dot3D.setAttribute("fill", person.color);
+          dot3D.setAttribute("stroke", "var(--bg)");
+          dot3D.setAttribute("stroke-width", "1.5");
+          g3D.appendChild(dot3D);
+
+          const badge3D = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          badge3D.setAttribute("class", "person-badge");
+          badge3D.setAttribute("x", proj3D.px);
+          badge3D.setAttribute("y", proj3D.py - 10);
+          badge3D.setAttribute("text-anchor", "middle");
+          badge3D.setAttribute("fill", person.color);
+          badge3D.textContent = `${person.code}: ${person.name}`;
+          g3D.appendChild(badge3D);
+          svg.appendChild(g3D);
+
+          // 1D Point
+          const g1D = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          g1D.setAttribute("class", "person-point");
+          const dot1D = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          dot1D.setAttribute("cx", pos1DX); dot1D.setAttribute("cy", pos1DY);
+          dot1D.setAttribute("r", "5.5");
+          dot1D.setAttribute("fill", person.color);
+          dot1D.setAttribute("stroke", "var(--bg)");
+          dot1D.setAttribute("stroke-width", "1.5");
+          g1D.appendChild(dot1D);
+
+          const badge1D = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          badge1D.setAttribute("class", "person-badge");
+          badge1D.setAttribute("x", pos1DX);
+          badge1D.setAttribute("y", idx % 2 === 1 ? pos1DY + 18 : pos1DY - 12);
+          badge1D.setAttribute("text-anchor", "middle");
+          badge1D.setAttribute("fill", person.color);
+          badge1D.textContent = `${person.code}: ${person.name}`;
+          g1D.appendChild(badge1D);
+          svg.appendChild(g1D);
+        } else {
+          // Animating interpolation
+          const p = animProgress;
+          const curX = proj3D.px * (1 - p) + pos1DX * p;
+          const curY = proj3D.py * (1 - p) + pos1DY * p;
+
+          const gPoint = document.createElementNS("http://www.w3.org/2000/svg", "g");
+          gPoint.setAttribute("class", "person-point");
+
+          if (1 - p > 0.1 && p3DY > 5) {
+            const drop = document.createElementNS("http://www.w3.org/2000/svg", "line");
+            drop.setAttribute("x1", curX); drop.setAttribute("y1", curY);
+            drop.setAttribute("x2", floor3D.px * (1 - p) + pos1DX * p);
+            drop.setAttribute("y2", floor3D.py * (1 - p) + pos1DY * p);
+            drop.setAttribute("stroke", person.color);
+            drop.setAttribute("stroke-width", "1.2");
+            drop.setAttribute("stroke-dasharray", "2 2");
+            drop.setAttribute("opacity", (1 - p) * 0.6);
+            gPoint.appendChild(drop);
+          }
+
+          const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+          dot.setAttribute("cx", curX); dot.setAttribute("cy", curY);
+          dot.setAttribute("r", "5.5");
+          dot.setAttribute("fill", person.color);
+          dot.setAttribute("stroke", "var(--bg)");
+          dot.setAttribute("stroke-width", "1.5");
+          gPoint.appendChild(dot);
+
+          const badge = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          badge.setAttribute("class", "person-badge");
+          badge.setAttribute("x", curX);
+          // Smoothly interpolate between top badge and staggered 1D position if needed, or keep standard top offset
+          const targetYOffset = (idx % 2 === 1) ? (-11 * (1 - p) + 18 * p) : -11;
+          badge.setAttribute("y", curY + targetYOffset);
+          badge.setAttribute("text-anchor", "middle");
+          badge.setAttribute("fill", person.color);
+          badge.textContent = `${person.code}: ${person.name}`;
+          gPoint.appendChild(badge);
+
+          svg.appendChild(gPoint);
+        }
+      });
+    }
+
+    function startDefaultAnimationLoop() {
+      let startTime = performance.now();
+      const cycleDuration = 3200;
+
+      function loop(now) {
+        if (!isSideBySideFinal && !isDragging3D) {
+          const elapsed = (now - startTime) % cycleDuration;
+          let t = elapsed / cycleDuration;
+          animProgress = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+          render3DTo1DTransformation();
+        }
+        animId = requestAnimationFrame(loop);
+      }
+      animId = requestAnimationFrame(loop);
+    }
+
+    function toggleFinalStage() {
+      isSideBySideFinal = !isSideBySideFinal;
+      render3DTo1DTransformation();
+    }
+
+    function setup3DOrbitInteractivity() {
+      const svg = document.getElementById("transformSvg");
+      if (!svg) return;
+
+      svg.addEventListener("mousedown", (e) => {
+        isDragging3D = true;
+        isUserDragging = false;
+        prevMouseX = e.clientX;
+        prevMouseY = e.clientY;
+        dragStartX = e.clientX;
+        dragStartY = e.clientY;
+      });
+
+      window.addEventListener("mousemove", (e) => {
+        if (!isDragging3D) return;
+        const dx = e.clientX - prevMouseX;
+        const dy = e.clientY - prevMouseY;
+        prevMouseX = e.clientX;
+        prevMouseY = e.clientY;
+
+        if (Math.hypot(e.clientX - dragStartX, e.clientY - dragStartY) > 4) {
+          isUserDragging = true;
+        }
+
+        yaw += dx * 0.009;
+        pitch += dy * 0.009;
+        render3DTo1DTransformation();
+      });
+
+      window.addEventListener("mouseup", () => {
+        if (!isDragging3D) return;
+        isDragging3D = false;
+        if (!isUserDragging) {
+          toggleFinalStage();
+        }
+      });
+
+      svg.addEventListener("touchstart", (e) => {
+        if (e.touches.length === 1) {
+          isDragging3D = true;
+          isUserDragging = false;
+          prevMouseX = e.touches[0].clientX;
+          prevMouseY = e.touches[0].clientY;
+          dragStartX = e.touches[0].clientX;
+          dragStartY = e.touches[0].clientY;
+        }
+      }, { passive: true });
+
+      window.addEventListener("touchmove", (e) => {
+        if (!isDragging3D || e.touches.length !== 1) return;
+        const dx = e.touches[0].clientX - prevMouseX;
+        const dy = e.touches[0].clientY - prevMouseY;
+        prevMouseX = e.touches[0].clientX;
+        prevMouseY = e.touches[0].clientY;
+
+        if (Math.hypot(e.touches[0].clientX - dragStartX, e.touches[0].clientY - dragStartY) > 5) {
+          isUserDragging = true;
+        }
+
+        yaw += dx * 0.009;
+        pitch += dy * 0.009;
+        render3DTo1DTransformation();
+      }, { passive: true });
+
+      window.addEventListener("touchend", () => {
+        if (!isDragging3D) return;
+        isDragging3D = false;
+        if (!isUserDragging) {
+          toggleFinalStage();
+        }
+      });
+    }
+
+    function openLightbox(src, caption) {
+      const modal = document.getElementById("lightboxModal");
+      const img = document.getElementById("lightboxImg");
+      const cap = document.getElementById("lightboxCaption");
+      img.src = src;
+      cap.textContent = caption;
+      modal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById("lightboxModal");
+      modal.classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
+    });
+
+    drawCompressionGraph(0);
+    render3DTo1DTransformation();
+    setup3DOrbitInteractivity();
+    startDefaultAnimationLoop();
+  </script>
+
+  <!-- Floating Next Essay Navigation -->
+  <a href="evolution.html" class="floating-next-btn" title="Next Essay: Evolution">
+    <span>Next: Evolution</span>
+    <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+</body>
+</html>

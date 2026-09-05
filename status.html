@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STATUS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #faf7f2;
+      --card-bg: rgba(255, 255, 255, 0.65);
+      --ink: #1f1c1a;
+      --ink-soft: #4a443e;
+      --ink-muted: #8c8275;
+      --accent: #b3532e;
+      --line: #e6dfd3;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      line-height: 1.85;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+      padding: 0 1.5rem;
+    }
+
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding-top: 5rem;
+    }
+
+    /* Stylised Heading */
+    .title-status {
+      font-family: var(--font-serif);
+      font-size: clamp(3.2rem, 7.5vw, 5.2rem);
+      font-weight: 300;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ink);
+      line-height: 1;
+      margin-bottom: 2.5rem;
+      display: inline-block;
+      position: relative;
+    }
+
+    .title-status::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 2px;
+      width: 32px;
+      height: 2px;
+      background: var(--accent);
+      opacity: 0.8;
+    }
+
+    /* Text & Quotes */
+    p {
+      color: var(--ink-soft);
+      margin-bottom: 1.6rem;
+      font-weight: 300;
+    }
+
+    p strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* Criteria Tags */
+    .criteria-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin: 1.5rem 0 2.5rem;
+    }
+
+    .criteria-tag {
+      background: none;
+      border: 1px solid var(--line);
+      color: var(--ink-muted);
+      padding: 0.35rem 0.8rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-family: var(--font-sans);
+    }
+
+    /* Interactive Status Arena Graph (1st graph) */
+    .arena-wrap {
+      margin: 0.6rem 0 1.2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.5rem 1.25rem 1.2rem;
+    }
+
+    .arena-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .arena-tab {
+      background: none;
+      border: 1px solid var(--line);
+      padding: 0.4rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-family: var(--font-sans);
+    }
+
+    .arena-tab:hover, .arena-tab.active {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+    }
+
+    svg.arena-svg {
+      width: 100%;
+      height: 270px;
+      display: block;
+      overflow: visible;
+    }
+
+    .axis-line {
+      stroke: var(--ink-muted);
+      stroke-width: 1.2;
+      stroke-opacity: 0.6;
+    }
+
+    .axis-label {
+      font-size: 11px;
+      fill: var(--ink-muted);
+      letter-spacing: 0.05em;
+      transition: fill 0.2s ease;
+    }
+
+    .grid-line {
+      stroke: var(--line);
+      stroke-width: 1;
+      stroke-dasharray: 4 4;
+    }
+
+    /* Person Dots */
+    .person-node {
+      transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .person-node circle.outer {
+      fill: var(--bg);
+      stroke: var(--accent);
+      stroke-width: 2;
+      filter: drop-shadow(0 2px 6px rgba(179, 83, 46, 0.25));
+    }
+
+    .person-node text.label {
+      font-size: 11px;
+      font-weight: 600;
+      fill: var(--accent);
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+    }
+
+    .person-node text.name-tag {
+      font-size: 12px;
+      fill: var(--ink);
+      font-weight: 500;
+      text-anchor: middle;
+      pointer-events: none;
+    }
+
+    /* Detail card below arena */
+    .arena-detail {
+      margin-top: 1.2rem;
+      padding-top: 1.2rem;
+      border-top: 1px solid var(--line);
+      transition: opacity 0.2s ease;
+    }
+
+    .detail-title {
+      font-family: var(--font-serif);
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+    }
+
+    .detail-desc {
+      font-size: 0.95rem;
+      color: var(--ink-soft);
+      line-height: 1.7;
+    }
+
+    /* 2D / 3D Multidimensional Matrix Graph (2nd graph) */
+    .matrix-wrap {
+      margin: 1.2rem 0 2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 1.5rem 1.25rem 1.2rem;
+    }
+
+    .matrix-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.2rem;
+    }
+
+    .matrix-pills {
+      display: flex;
+      gap: 0.45rem;
+    }
+
+    .matrix-pill {
+      background: none;
+      border: 1px solid var(--line);
+      padding: 0.35rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      font-family: var(--font-sans);
+      font-weight: 500;
+    }
+
+    .matrix-pill:hover, .matrix-pill.active {
+      background: var(--ink);
+      color: var(--bg);
+      border-color: var(--ink);
+    }
+
+    .matrix-subtitle {
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      font-family: var(--font-sans);
+    }
+
+    /* 2D SVG Styles */
+    svg.matrix-svg {
+      width: 100%;
+      height: 290px;
+      display: block;
+      overflow: visible;
+    }
+
+    .matrix-dot {
+      fill: var(--bg);
+      stroke: var(--accent);
+      stroke-width: 2.2;
+      filter: drop-shadow(0 2px 6px rgba(179, 83, 46, 0.28));
+      transition: transform 0.2s ease, r 0.2s ease;
+    }
+
+    .matrix-node text.matrix-node-name {
+      font-size: 13px;
+      font-weight: 600;
+      fill: var(--ink);
+      font-family: var(--font-sans);
+    }
+
+    .matrix-node text.matrix-node-sub {
+      font-size: 8.5px;
+      fill: var(--ink-muted);
+      opacity: 0.65;
+      font-family: var(--font-sans);
+      letter-spacing: 0.02em;
+    }
+
+    /* 3D Canvas Container */
+    .matrix-3d-stage {
+      width: 100%;
+      height: 380px;
+      display: none;
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(250, 247, 242, 0.45);
+      border: 1px solid rgba(230, 223, 211, 0.8);
+    }
+
+    #matrix3DCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+    }
+
+    #matrix3DCanvas:active {
+      cursor: grabbing;
+    }
+
+    .hint-3d {
+      position: absolute;
+      bottom: 12px;
+      right: 14px;
+      font-size: 11px;
+      color: var(--ink-muted);
+      pointer-events: none;
+      background: rgba(250, 247, 242, 0.85);
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+    }
+
+    /* Shadow Cards */
+    .shadow-card {
+      background: var(--card-bg);
+      border: none;
+      box-shadow: 0 18px 45px rgba(35, 25, 15, 0.055);
+      border-radius: 20px;
+      padding: 2.2rem 2.2rem;
+      position: relative;
+      margin-bottom: 1.6rem;
+    }
+
+    .card-top-num {
+      position: absolute;
+      top: 1.3rem;
+      right: 1.6rem;
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      color: var(--accent);
+      line-height: 1;
+      font-weight: 400;
+    }
+
+    .card-para {
+      text-align: justify;
+      text-indent: 2.2rem;
+      color: var(--ink-soft);
+      line-height: 1.85;
+      margin-bottom: 0;
+      font-size: 1.02rem;
+    }
+
+    .card-para strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .prominent-quote {
+      font-family: var(--font-serif);
+      font-size: clamp(1.45rem, 3.5vw, 1.95rem);
+      font-weight: 500;
+      font-style: italic;
+      color: var(--ink);
+      text-align: center;
+      line-height: 1.45;
+      margin: 3.5rem auto 1.5rem;
+      max-width: 620px;
+      border: none;
+      padding: 0;
+    }
+
+    /* Source Photo */
+    .source-wrap {
+      margin: 2.5rem 0 1rem;
+      text-align: center;
+    }
+
+    .source-img {
+      width: 72px;
+      max-width: 72px;
+      height: auto;
+      border-radius: 6px;
+      border: 1px solid var(--line);
+      display: block;
+      margin: 0 auto;
+      opacity: 0.8;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.25s ease, opacity 0.25s ease;
+      cursor: pointer;
+    }
+
+    .source-img:hover {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+
+    /* Lightbox Modal */
+    .lightbox-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 14, 12, 0.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .lightbox-modal.active {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-content {
+      position: relative;
+      max-width: 90vw;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-img {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .lightbox-caption {
+      color: #ede7dc;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+      font-family: var(--font-sans);
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -2.5rem;
+      right: 0;
+      background: none;
+      border: none;
+      color: #fff;
+      font-size: 1.8rem;
+      cursor: pointer;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+
+    .lightbox-close:hover {
+      opacity: 1;
+    }
+
+    /* Minimal Colophon */
+    footer {
+      padding: 1.5rem 0 4rem;
+      text-align: center;
+    }
+
+    /* Floating Next Essay Button */
+    .floating-next-btn {
+      position: fixed;
+      bottom: 1.25rem;
+      right: 1.25rem;
+      z-index: 1000;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(250, 247, 242, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: var(--ink-soft);
+      border: 1px solid var(--line);
+      padding: 0.4rem 0.8rem;
+      border-radius: 9999px;
+      font-family: var(--font-sans);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      text-decoration: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .floating-next-btn:hover {
+      background: #ffffff;
+      color: var(--accent);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(179, 83, 46, 0.15);
+    }
+    .floating-next-btn svg {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      transition: transform 0.2s ease;
+    }
+    .floating-next-btn:hover svg {
+      transform: translateX(2px);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <main>
+      <section>
+        <h1 class="title-status">STATUS</h1>
+
+        <p style="font-size: 1.25rem; font-family: var(--font-serif); color: var(--ink); line-height: 1.6; margin-bottom: 1.5rem;">
+          Status is nothing but what it is Ego for individual, but for collective / society.
+        </p>
+
+        <p>
+          Don't worry, next parts are all about simplifying STATUS.
+        </p>
+      </section>
+
+      <!-- Section: Paragraph 1 -->
+      <section style="margin: 2rem 0 1.2rem;">
+        <div class="shadow-card">
+          <span class="card-top-num">1</span>
+          <p class="card-para">
+            Give Yourself a Question? “What is my status in your class or office”. When we say status in your class, immediately reminds you of marks you obtained in your last exam, and the rank you got with that mark. That rank can be taken as a status. In case of official rank like grade-1, grade-2, grade-3 job. These are some determinants of status in an office. But think! In an overall society, if someone ask, what is your status? (first of all no one ask like that). What will be your answer. If you consider the monthly income, then you can give yourself a rank.
+          </p>
+        </div>
+      </section>
+
+      <!-- Interactive Arena: Money vs Dance Comparison (Directly after 1st paragraph) -->
+      <section style="margin: 1.2rem 0 2rem;">
+        <div class="arena-wrap">
+          <div class="arena-tabs">
+            <button class="arena-tab active" onclick="setArena(this, 'money')">Money Benchmark</button>
+            <button class="arena-tab" onclick="setArena(this, 'dance')">Dance Competition</button>
+          </div>
+
+          <svg class="arena-svg" viewBox="0 0 720 250" role="img" aria-label="Relative Status Comparison Graph">
+            <!-- Axes -->
+            <line x1="60" y1="200" x2="680" y2="200" class="axis-line" />
+            <line x1="60" y1="200" x2="60" y2="25" class="axis-line" />
+            
+            <text x="680" y="225" class="axis-label" text-anchor="end">Participants →</text>
+            <!-- Vertical Y-Axis Label, written from down to up with upward arrow -->
+            <text x="30" y="112" transform="rotate(-90 30 112)" class="axis-label" id="yAxisLabel" text-anchor="middle">Money →</text>
+
+            <!-- Grid Lines for Ranks -->
+            <line x1="60" y1="60" x2="680" y2="60" class="grid-line" />
+            <line x1="60" y1="120" x2="680" y2="120" class="grid-line" />
+            <line x1="60" y1="180" x2="680" y2="180" class="grid-line" />
+
+            <!-- Person Groups (Dhunuk, Thunuk, Junuk, Runuk, You) -->
+            <!-- Dhunuk -->
+            <g class="person-node" id="node-dhunuk" transform="translate(120, 180)">
+              <circle class="outer" r="12" />
+              <text class="label" y="0.5">D</text>
+              <text class="name-tag" y="25">Dhunuk</text>
+            </g>
+
+            <!-- Thunuk -->
+            <g class="person-node" id="node-thunuk" transform="translate(250, 60)">
+              <circle class="outer" r="12" />
+              <text class="label" y="0.5">T</text>
+              <text class="name-tag" y="25">Thunuk</text>
+            </g>
+
+            <!-- Junuk -->
+            <g class="person-node" id="node-junuk" transform="translate(380, 180)">
+              <circle class="outer" r="12" />
+              <text class="label" y="0.5">J</text>
+              <text class="name-tag" y="25">Junuk</text>
+            </g>
+
+            <!-- Runuk -->
+            <g class="person-node" id="node-runuk" transform="translate(510, 120)">
+              <circle class="outer" r="12" />
+              <text class="label" y="0.5">R</text>
+              <text class="name-tag" y="25">Runuk</text>
+            </g>
+
+            <!-- You -->
+            <g class="person-node" id="node-you" transform="translate(630, 120)">
+              <circle class="outer" r="12" />
+              <text class="label" y="0.5">Y</text>
+              <text class="name-tag" y="25">You</text>
+            </g>
+          </svg>
+
+          <div class="arena-detail" id="arenaDetail">
+            <div class="detail-title" id="arenaTitle">Money Benchmark</div>
+            <p class="detail-desc" id="arenaDesc">
+              In money benchmark, Thunuk is the topper (Rank 1). You and Runuk hold Rank 2, while Dhunuk and Junuk are at Rank 3.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Paragraph 2 -->
+      <section style="margin: 1.5rem 0 1.2rem;">
+        <div class="shadow-card">
+          <span class="card-top-num">2</span>
+          <p class="card-para">
+            But who is above between you and Runuk. To decide that, let say we have decided to conduct a dance competition between all. Now if you observe closely you get top rank and beated Runuk here, but problem arises again because Thunuk who was topper on the last benchmark (that was money) now got the last position. This is not actual problem, actual problem is “Thunuk” and “Junuk” got same rank. Now how to decide who should get top status, or for that matter how to decide who get what status in real world society. Competition is not between individual but among criterias, spheres and games.
+          </p>
+        </div>
+      </section>
+
+      <!-- 2D / 3D Multidimensional Status Matrix (Directly after 2nd paragraph) -->
+      <section style="margin: 1.2rem 0 2rem;">
+        <div class="matrix-wrap">
+          <!-- Top Bar with Left Pills for 2D vs 3D -->
+          <div class="matrix-top-bar">
+            <div class="matrix-pills">
+              <button class="matrix-pill active" id="btnMatrix2D" onclick="switchMatrixView('2d')">2D Matrix</button>
+              <button class="matrix-pill" id="btnMatrix3D" onclick="switchMatrixView('3d')">3D Landscape</button>
+            </div>
+            <div class="matrix-subtitle" id="matrixSubtitle">2D Cross-Benchmark Grid</div>
+          </div>
+
+          <!-- 2D SVG View (Names written directly inside next to dots) -->
+          <div id="viewMatrix2D">
+            <svg class="matrix-svg" viewBox="0 0 720 280" role="img" aria-label="2D Multi-dimensional Status Matrix">
+              <!-- Axes -->
+              <line x1="90" y1="230" x2="670" y2="230" class="axis-line" stroke-width="1.5" />
+              <line x1="90" y1="230" x2="90" y2="30" class="axis-line" stroke-width="1.5" />
+              
+              <!-- Axis Labels -->
+              <text x="670" y="255" class="axis-label" text-anchor="end">Dance Rank →</text>
+              <text x="35" y="130" transform="rotate(-90 35 130)" class="axis-label" text-anchor="middle">Income Rank →</text>
+
+              <!-- Vertical Grid Lines (Columns at x = 200, 310, 420, 530, 640) -->
+              <line x1="200" y1="30" x2="200" y2="230" class="grid-line" />
+              <line x1="310" y1="30" x2="310" y2="230" class="grid-line" />
+              <line x1="420" y1="30" x2="420" y2="230" class="grid-line" />
+              <line x1="530" y1="30" x2="530" y2="230" class="grid-line" />
+              <line x1="640" y1="30" x2="640" y2="230" class="grid-line" />
+
+              <!-- Horizontal Grid Lines (Rows at y = 80, 130, 180) -->
+              <line x1="90" y1="80" x2="670" y2="80" class="grid-line" />
+              <line x1="90" y1="130" x2="670" y2="130" class="grid-line" />
+              <line x1="90" y1="180" x2="670" y2="180" class="grid-line" />
+              <line x1="90" y1="30" x2="670" y2="30" class="grid-line" />
+
+              <!-- Plotted Nodes with FULL CAPITALISED NAMES (You, Runuk, Junuk, Thunuk, Dhunuk) -->
+              <!-- T (Thunuk): Column 1 (x=200), Row 1 (y=80) -->
+              <g class="matrix-node" transform="translate(200, 80)">
+                <circle class="matrix-dot" r="6.5" />
+                <text class="matrix-node-name" x="14" y="-2">Thunuk</text>
+                <text class="matrix-node-sub" x="14" y="12">Dance #3 • Income #1</text>
+              </g>
+
+              <!-- J (Junuk): Column 1 (x=200), Row 3 (y=180) -->
+              <g class="matrix-node" transform="translate(200, 180)">
+                <circle class="matrix-dot" r="6.5" />
+                <text class="matrix-node-name" x="14" y="-2">Junuk</text>
+                <text class="matrix-node-sub" x="14" y="12">Dance #3 • Income #3</text>
+              </g>
+
+              <!-- D (Dhunuk): Column 2 (x=310), Row 3 (y=180) -->
+              <g class="matrix-node" transform="translate(310, 180)">
+                <circle class="matrix-dot" r="6.5" />
+                <text class="matrix-node-name" x="14" y="-2">Dhunuk</text>
+                <text class="matrix-node-sub" x="14" y="12">Dance #3 • Income #3</text>
+              </g>
+
+              <!-- R (Runuk): Column 3 (x=420), Row 2 (y=130) -->
+              <g class="matrix-node" transform="translate(420, 130)">
+                <circle class="matrix-dot" r="6.5" />
+                <text class="matrix-node-name" x="14" y="-2">Runuk</text>
+                <text class="matrix-node-sub" x="14" y="12">Dance #2 • Income #2</text>
+              </g>
+
+              <!-- Y (You): Column 4 (x=530), Row 2 (y=130) -->
+              <g class="matrix-node" transform="translate(530, 130)">
+                <circle class="matrix-dot" r="6.5" />
+                <text class="matrix-node-name" x="14" y="-2">You</text>
+                <text class="matrix-node-sub" x="14" y="12">Dance #1 • Income #2</text>
+              </g>
+            </svg>
+          </div>
+
+          <!-- 3D True Perspective Billboard Canvas View -->
+          <div id="viewMatrix3D" class="matrix-3d-stage">
+            <canvas id="matrix3DCanvas"></canvas>
+            <div class="hint-3d">✦ Drag to rotate in 3D</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Paragraph 3 -->
+      <section style="margin: 1.5rem 0 2rem;">
+        <div class="shadow-card">
+          <span class="card-top-num">3</span>
+          <p class="card-para">
+            The competition can be of many type, height, weight, colour, intelligence, strength, beauty, fluency in flute playing, khol playing, speaking english etc. etc. an individual who is topper can be mediocre or last bencher in other. This the game of life, game of society on the multidimensional canvas of status.
+          </p>
+        </div>
+
+        <div class="criteria-wrap">
+          <span class="criteria-tag">height</span>
+          <span class="criteria-tag">weight</span>
+          <span class="criteria-tag">colour</span>
+          <span class="criteria-tag">intelligence</span>
+          <span class="criteria-tag">strength</span>
+          <span class="criteria-tag">beauty</span>
+          <span class="criteria-tag">fluency in flute playing</span>
+          <span class="criteria-tag">khol playing</span>
+          <span class="criteria-tag">speaking english</span>
+        </div>
+      </section>
+
+      <!-- Prominent Quote from Notebook -->
+      <blockquote class="prominent-quote">
+        “Competition is not between individual but among criterias, spheres and games.”
+      </blockquote>
+
+      <!-- Source Notebook Scan -->
+      <section class="source-wrap">
+        <img src="STATUS.jpg" alt="Original notebook pages on status" class="source-img" onclick="openLightbox('STATUS.jpg', 'Original notebook scan on Status')" loading="lazy">
+      </section>
+    </main>
+
+    <footer></footer>
+  </div>
+
+  <!-- Lightbox Modal -->
+  <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox(event)">
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+      <img id="lightboxImg" src="" alt="Notebook Manuscript Full View" class="lightbox-img">
+      <div class="lightbox-caption" id="lightboxCaption"></div>
+    </div>
+  </div>
+
+  <script>
+    const arenaData = {
+      money: {
+        title: "Money Benchmark",
+        yLabel: "Money →",
+        desc: "In money benchmark, Thunuk is the topper (Rank 1). You and Runuk hold Rank 2, while Dhunuk and Junuk are at Rank 3.",
+        coords: {
+          dhunuk: { x: 120, y: 180 },
+          thunuk: { x: 250, y: 60 },
+          junuk:  { x: 380, y: 180 },
+          runuk:  { x: 510, y: 120 },
+          you:    { x: 630, y: 120 }
+        }
+      },
+      dance: {
+        title: "Dance Competition",
+        yLabel: "Dance Talent →",
+        desc: "In dance competition, You claim Rank 1 (topper) and beat Runuk (Rank 2). Thunuk, Junuk, and Dhunuk get the same last rank (Rank 3).",
+        coords: {
+          dhunuk: { x: 120, y: 180 },
+          thunuk: { x: 250, y: 180 },
+          junuk:  { x: 380, y: 180 },
+          runuk:  { x: 510, y: 120 },
+          you:    { x: 630, y: 60 }
+        }
+      }
+    };
+
+    function setArena(btn, gameKey) {
+      document.querySelectorAll('.arena-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+
+      const g = arenaData[gameKey];
+      if (!g) return;
+
+      // Update Y-axis Label
+      const yAxis = document.getElementById('yAxisLabel');
+      if (yAxis) yAxis.textContent = g.yLabel;
+
+      // Update Node Positions
+      Object.keys(g.coords).forEach(pid => {
+        const node = document.getElementById('node-' + pid);
+        const c = g.coords[pid];
+        if (node && c) {
+          node.setAttribute('transform', 'translate(' + c.x + ', ' + c.y + ')');
+        }
+      });
+
+      // Update Description
+      const detail = document.getElementById('arenaDetail');
+      detail.style.opacity = '0.3';
+      setTimeout(() => {
+        document.getElementById('arenaTitle').textContent = g.title;
+        document.getElementById('arenaDesc').textContent = g.desc;
+        detail.style.opacity = '1';
+      }, 120);
+    }
+
+    // Switch between 2D and 3D Matrix View
+    function switchMatrixView(mode) {
+      const btn2D = document.getElementById('btnMatrix2D');
+      const btn3D = document.getElementById('btnMatrix3D');
+      const v2D = document.getElementById('viewMatrix2D');
+      const v3D = document.getElementById('viewMatrix3D');
+      const subtitle = document.getElementById('matrixSubtitle');
+
+      if (mode === '3d') {
+        btn2D.classList.remove('active');
+        btn3D.classList.add('active');
+        v2D.style.display = 'none';
+        v3D.style.display = 'block';
+        subtitle.textContent = '3D Space: Floor = (Dance, Candidate), Z-Axis = Income';
+        init3DCanvas();
+      } else {
+        btn3D.classList.remove('active');
+        btn2D.classList.add('active');
+        v3D.style.display = 'none';
+        v2D.style.display = 'block';
+        subtitle.textContent = '2D Cross-Benchmark Grid';
+      }
+    }
+
+    // --- 3D ENGINE (Floor: Dance Rank & Candidate, Vertical Z-Axis: Income Rank) ---
+    // Candidates: You, Runuk, Junuk, Thunuk, Dhunuk
+    const candidates3D = [
+      { name: "Thunuk", danceRank: 3, candIndex: 0, incomeRank: 1, zHeight: 150, sub: "Dance #3 • Income #1" },
+      { name: "Junuk",  danceRank: 3, candIndex: 1, incomeRank: 3, zHeight: 50,  sub: "Dance #3 • Income #3" },
+      { name: "Dhunuk", danceRank: 3, candIndex: 2, incomeRank: 3, zHeight: 50,  sub: "Dance #3 • Income #3" },
+      { name: "Runuk",  danceRank: 2, candIndex: 3, incomeRank: 2, zHeight: 100, sub: "Dance #2 • Income #2" },
+      { name: "You",    danceRank: 1, candIndex: 4, incomeRank: 2, zHeight: 100, sub: "Dance #1 • Income #2" }
+    ];
+
+    let canvas3D, ctx3D, is3DInit = false;
+    let yaw = -0.65, pitch = 0.48, zoom = 1.0;
+    let isDragging3D = false, prevMouseX, prevMouseY;
+
+    function init3DCanvas() {
+      canvas3D = document.getElementById('matrix3DCanvas');
+      if (!canvas3D) return;
+      ctx3D = canvas3D.getContext('2d');
+
+      function resizeCanvas() {
+        const rect = canvas3D.parentElement.getBoundingClientRect();
+        canvas3D.width = rect.width * window.devicePixelRatio;
+        canvas3D.height = rect.height * window.devicePixelRatio;
+        draw3DScene();
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      if (!is3DInit) {
+        is3DInit = true;
+        canvas3D.addEventListener('mousedown', e => {
+          isDragging3D = true;
+          prevMouseX = e.clientX;
+          prevMouseY = e.clientY;
+        });
+
+        window.addEventListener('mousemove', e => {
+          if (!isDragging3D) return;
+          const dx = e.clientX - prevMouseX;
+          const dy = e.clientY - prevMouseY;
+          prevMouseX = e.clientX;
+          prevMouseY = e.clientY;
+
+          yaw += dx * 0.009;
+          pitch = Math.max(0.12, Math.min(1.25, pitch + dy * 0.009));
+          draw3DScene();
+        });
+
+        window.addEventListener('mouseup', () => {
+          isDragging3D = false;
+        });
+      }
+      draw3DScene();
+    }
+
+    // 3D Projection Engine
+    function project3D(x, y, z, cx, cy) {
+      // Rotate around Z (yaw)
+      const cosY = Math.cos(yaw), sinY = Math.sin(yaw);
+      const x1 = x * cosY - y * sinY;
+      const y1 = x * sinY + y * cosY;
+      const z1 = z;
+
+      // Rotate around X (pitch)
+      const cosP = Math.cos(pitch), sinP = Math.sin(pitch);
+      const y2 = y1 * cosP - z1 * sinP;
+      const z2 = y1 * sinP + z1 * cosP;
+      const x2 = x1;
+
+      // Perspective projection
+      const cameraDist = 480;
+      const scale = (cameraDist / (cameraDist + y2 * 0.95)) * zoom;
+
+      return {
+        px: cx + x2 * scale,
+        py: cy - z2 * scale,
+        depth: y2,
+        scale: scale
+      };
+    }
+
+    function draw3DScene() {
+      if (!ctx3D || !canvas3D) return;
+      const dpr = window.devicePixelRatio || 1;
+      const w = canvas3D.width / dpr;
+      const h = canvas3D.height / dpr;
+
+      ctx3D.save();
+      ctx3D.scale(dpr, dpr);
+      ctx3D.clearRect(0, 0, w, h);
+
+      const cx = w * 0.48;
+      const cy = h * 0.62;
+
+      const xMin = -140, xMax = 140;
+      const yMin = -110, yMax = 110;
+
+      // 1. Draw Floor Grid
+      ctx3D.lineWidth = 1;
+      ctx3D.strokeStyle = 'rgba(215, 203, 187, 0.75)';
+      ctx3D.fillStyle = 'rgba(255, 255, 255, 0.5)';
+
+      const c1 = project3D(xMin, yMin, 0, cx, cy);
+      const c2 = project3D(xMax, yMin, 0, cx, cy);
+      const c3 = project3D(xMax, yMax, 0, cx, cy);
+      const c4 = project3D(xMin, yMax, 0, cx, cy);
+
+      ctx3D.beginPath();
+      ctx3D.moveTo(c1.px, c1.py);
+      ctx3D.lineTo(c2.px, c2.py);
+      ctx3D.lineTo(c3.px, c3.py);
+      ctx3D.lineTo(c4.px, c4.py);
+      ctx3D.closePath();
+      ctx3D.fill();
+      ctx3D.stroke();
+
+      // Floor Grid Lines
+      for (let r = 1; r <= 3; r++) {
+        const gx = xMin + ((r - 0.5) / 3) * (xMax - xMin);
+        const pA = project3D(gx, yMin, 0, cx, cy);
+        const pB = project3D(gx, yMax, 0, cx, cy);
+        ctx3D.beginPath();
+        ctx3D.setLineDash([3, 4]);
+        ctx3D.moveTo(pA.px, pA.py);
+        ctx3D.lineTo(pB.px, pB.py);
+        ctx3D.stroke();
+      }
+
+      for (let i = 0; i < 5; i++) {
+        const gy = yMin + (i / 4) * (yMax - yMin);
+        const pA = project3D(xMin, gy, 0, cx, cy);
+        const pB = project3D(xMax, gy, 0, cx, cy);
+        ctx3D.beginPath();
+        ctx3D.setLineDash([3, 4]);
+        ctx3D.moveTo(pA.px, pA.py);
+        ctx3D.lineTo(pB.px, pB.py);
+        ctx3D.stroke();
+      }
+      ctx3D.setLineDash([]);
+
+      // Floor Plane Axes
+      ctx3D.lineWidth = 1.6;
+      ctx3D.strokeStyle = 'rgba(80, 70, 60, 0.7)';
+
+      ctx3D.beginPath();
+      ctx3D.moveTo(c4.px, c4.py);
+      ctx3D.lineTo(c3.px, c3.py);
+      ctx3D.stroke();
+
+      ctx3D.beginPath();
+      ctx3D.moveTo(c1.px, c1.py);
+      ctx3D.lineTo(c4.px, c4.py);
+      ctx3D.stroke();
+
+      // Floor Axis Labels
+      const xLabelPos = project3D(0, yMax + 24, 0, cx, cy);
+      ctx3D.font = '500 11px system-ui, sans-serif';
+      ctx3D.fillStyle = '#6b6155';
+      ctx3D.textAlign = 'center';
+      ctx3D.fillText('Dance Rank Axis →', xLabelPos.px, xLabelPos.py);
+
+      const yLabelPos = project3D(xMin - 28, 0, 0, cx, cy);
+      ctx3D.fillText('Candidate Plane ↗', yLabelPos.px, yLabelPos.py);
+
+      // Vertical Z-Axis: Income Rank at (xMin, yMin)
+      const zBase = project3D(xMin, yMin, 0, cx, cy);
+      const zTop = project3D(xMin, yMin, 175, cx, cy);
+      ctx3D.lineWidth = 2.2;
+      ctx3D.strokeStyle = '#b3532e';
+      ctx3D.beginPath();
+      ctx3D.moveTo(zBase.px, zBase.py);
+      ctx3D.lineTo(zTop.px, zTop.py);
+      ctx3D.stroke();
+
+      // Z-Axis Arrow & Label
+      ctx3D.font = '600 11px system-ui, sans-serif';
+      ctx3D.fillStyle = '#b3532e';
+      ctx3D.textAlign = 'center';
+      ctx3D.fillText('Income Rank Axis ↑', zTop.px, zTop.py - 10);
+
+      // Z-axis tick marks (Rank 3 bottom, Rank 1 top)
+      [50, 100, 150].forEach((zVal, idx) => {
+        const pt = project3D(xMin, yMin, zVal, cx, cy);
+        ctx3D.fillRect(pt.px - 3, pt.py - 1, 6, 2);
+        ctx3D.font = '10px system-ui, sans-serif';
+        ctx3D.fillText('Rank #' + (3 - idx), pt.px - 28, pt.py + 3);
+      });
+
+      // 2. Prepare Candidates Projection
+      const renderedCandidates = candidates3D.map(c => {
+        const posX = xMax - ((c.danceRank - 1) / 2) * (xMax - xMin);
+        const posY = yMin + (c.candIndex / 4) * (yMax - yMin);
+        const posZ = c.zHeight;
+
+        const baseProj = project3D(posX, posY, 0, cx, cy);
+        const topProj = project3D(posX, posY, posZ, cx, cy);
+
+        return {
+          ...c,
+          posX, posY, posZ,
+          baseProj, topProj,
+          depth: topProj.depth
+        };
+      });
+
+      // Sort far to near
+      renderedCandidates.sort((a, b) => b.depth - a.depth);
+
+      // 3. Render Each Candidate Pillar & Billboard
+      renderedCandidates.forEach(item => {
+        const bp = item.baseProj;
+        const tp = item.topProj;
+
+        // Shadow on Floor
+        ctx3D.beginPath();
+        ctx3D.ellipse(bp.px, bp.py, 7 * bp.scale, 3.5 * bp.scale, 0, 0, Math.PI * 2);
+        ctx3D.fillStyle = 'rgba(50, 40, 30, 0.22)';
+        ctx3D.fill();
+
+        // Floor Name Marker
+        ctx3D.font = '600 10.5px system-ui, sans-serif';
+        ctx3D.fillStyle = 'rgba(100, 90, 80, 0.85)';
+        ctx3D.textAlign = 'center';
+        ctx3D.fillText(item.name, bp.px, bp.py + 14 * bp.scale);
+
+        // Pillar Stem
+        ctx3D.lineWidth = 2.4 * tp.scale;
+        ctx3D.strokeStyle = 'rgba(179, 83, 46, 0.85)';
+        ctx3D.beginPath();
+        ctx3D.moveTo(bp.px, bp.py);
+        ctx3D.lineTo(tp.px, tp.py);
+        ctx3D.stroke();
+
+        // Top Sphere Head
+        ctx3D.beginPath();
+        ctx3D.arc(tp.px, tp.py, 5.5 * tp.scale, 0, Math.PI * 2);
+        ctx3D.fillStyle = '#faf7f2';
+        ctx3D.fill();
+        ctx3D.lineWidth = 2 * tp.scale;
+        ctx3D.strokeStyle = '#b3532e';
+        ctx3D.stroke();
+
+        // Billboard Card
+        const cardText = item.name;
+        const subText = 'Dance #' + item.danceRank + ' • Income #' + item.incomeRank;
+
+        ctx3D.font = 'bold 12px system-ui, sans-serif';
+        const nameWidth = ctx3D.measureText(cardText).width;
+        ctx3D.font = '10px system-ui, sans-serif';
+        const subWidth = ctx3D.measureText(subText).width;
+
+        const cardW = Math.max(nameWidth, subWidth) + 18;
+        const cardH = 26;
+        const cardX = tp.px - cardW / 2;
+        const cardY = tp.py - 42 * tp.scale;
+
+        ctx3D.fillStyle = 'rgba(255, 255, 255, 0.96)';
+        ctx3D.strokeStyle = 'rgba(179, 83, 46, 0.4)';
+        ctx3D.lineWidth = 1;
+        ctx3D.shadowColor = 'rgba(35, 25, 15, 0.14)';
+        ctx3D.shadowBlur = 8;
+        ctx3D.shadowOffsetY = 3;
+
+        ctx3D.beginPath();
+        ctx3D.roundRect(cardX, cardY, cardW, cardH, 6);
+        ctx3D.fill();
+        ctx3D.stroke();
+        ctx3D.shadowColor = 'transparent';
+
+        // Connector line
+        ctx3D.beginPath();
+        ctx3D.moveTo(tp.px, cardY + cardH);
+        ctx3D.lineTo(tp.px, tp.py - 6 * tp.scale);
+        ctx3D.strokeStyle = 'rgba(179, 83, 46, 0.5)';
+        ctx3D.stroke();
+
+        // Text
+        ctx3D.textAlign = 'center';
+        ctx3D.font = '600 11.5px system-ui, sans-serif';
+        ctx3D.fillStyle = '#1f1c1a';
+        ctx3D.fillText(cardText, tp.px, cardY + 11);
+
+        ctx3D.font = '500 7.5px system-ui, sans-serif';
+        ctx3D.fillStyle = 'rgba(140, 130, 117, 0.7)';
+        ctx3D.fillText(subText, tp.px, cardY + 21);
+      });
+
+      ctx3D.restore();
+    }
+
+    function openLightbox(src, caption) {
+      const modal = document.getElementById("lightboxModal");
+      const img = document.getElementById("lightboxImg");
+      const cap = document.getElementById("lightboxCaption");
+      img.src = src;
+      cap.textContent = caption;
+      modal.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById("lightboxModal");
+      modal.classList.remove("active");
+      document.body.style.overflow = "auto";
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeLightbox();
+    });
+  </script>
+
+  <!-- Floating Next Essay Navigation -->
+  <a href="capitalism.html" class="floating-next-btn" title="Next Essay: Capitalism">
+    <span>Next: Capitalism</span>
+    <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+  </a>
+</body>
+</html>
